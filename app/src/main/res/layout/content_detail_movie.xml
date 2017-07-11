@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_movie_detail">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_amber_50"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/movie_poster"
+                android:layout_width="125dp"
+                android:layout_height="175dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/movie_sample" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_toRightOf="@+id/movie_poster"
+                android:orientation="vertical">
+
+                <com.example.abdul.popularmovieappstage1.util.CustomTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:text="Titile"
+                    android:textSize="18dp"
+                    android:textStyle="italic"
+                    app:font="RobotoCondensed-Regular.ttf" />
+
+                <com.example.abdul.popularmovieappstage1.util.CustomTextView
+                    android:id="@+id/movie_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:text="Movie Titile"
+                    android:textSize="24dp"
+                    app:font="RobotoCondensed-Regular.ttf" />
+
+                <com.example.abdul.popularmovieappstage1.util.CustomTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Release Date"
+                    android:textSize="16dp"
+                    android:textStyle="italic"
+                    app:font="RobotoCondensed-Regular.ttf" />
+
+                <com.example.abdul.popularmovieappstage1.util.CustomTextView
+                    android:id="@+id/movie_release_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:text="Movie Titile"
+                    android:textSize="20dp"
+                    app:font="RobotoCondensed-Regular.ttf" />
+
+                <com.example.abdul.popularmovieappstage1.util.CustomTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Ratting"
+                    android:textSize="16dp"
+                    android:textStyle="italic"
+                    app:font="RobotoCondensed-Regular.ttf" />
+
+                <com.example.abdul.popularmovieappstage1.util.CustomTextView
+                    android:id="@+id/movie_ratting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:text="Movie Titile"
+                    android:textColor="@color/md_orange_800"
+                    android:textSize="20dp"
+                    app:font="RobotoCondensed-Regular.ttf" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.example.abdul.popularmovieappstage1.util.CustomTextView
+                android:id="@+id/movie_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:padding="8dp"
+                android:textColor="@color/md_grey_700"
+                android:textSize="18dp"
+                app:font="RobotoCondensed-Regular.ttf" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
