@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private String lang = "en-US";
     private int page = 2;
     private boolean firstloaded = false;
-
+    private String typeSort = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +54,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         apiInterface = Utils.getAPIService();
 
         recyclerView = (RecyclerView) findViewById(R.id.list_Popular_movie);
-        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+//        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.list_movie_refresh);
         refreshLayout.setOnRefreshListener(this);
         movieList = new ArrayList<Movie>();
         adapter = new ListPopularModieAdapter(recyclerView, movieList, MainActivity.this, MainActivity.this);
         recyclerView.setAdapter(adapter);
 
+        typeSort = "popular";
 
         adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
@@ -70,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     @Override
                     public void run() {
 
-                        getDataMovie(1);
+                        getDataMovie(1, typeSort);
 
 
                     }
@@ -83,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         refreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                getDataMovie(0);
+                getDataMovie(0, typeSort);
             }
         });
 
@@ -96,15 +101,42 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         int orientation = newConfig.orientation;
 
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+//            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, 1));
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 3));
+//            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 3));
+            recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, 1));
         }
+
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.sort_movie_menu, menu);
+
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.sort_popular) {
+            typeSort = "popular";
+            getDataMovie(0, typeSort);
+        } else if (id == R.id.sort_top_rated) {
+            typeSort = "top_rated";
+            getDataMovie(0, typeSort);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     // typeRequest = 0 for firstload / reload and 1 for loadMore
-    private void getDataMovie(final int typeRequeest) {
+    private void getDataMovie(final int typeRequeest, String typeSort) {
 
         try {
 
@@ -116,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //                Toast.makeText(this, "page " + page, Toast.LENGTH_SHORT).show();
             }
 
-            apiInterface.getListPopularMovie(lang, page).enqueue(new Callback<ListPopularMovie>() {
+            apiInterface.getListPopularMovie(typeSort, lang, page).enqueue(new Callback<ListPopularMovie>() {
                 @Override
                 public void onResponse(Call<ListPopularMovie> call, Response<ListPopularMovie> response) {
                     if (response.isSuccessful()) {
@@ -157,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        getDataMovie(0);
+        getDataMovie(0, typeSort);
     }
 
     @Override

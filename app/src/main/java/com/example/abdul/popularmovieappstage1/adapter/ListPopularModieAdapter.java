@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,15 +45,19 @@ public class ListPopularModieAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.context = context;
         this.listener = listener;
 
-        final GridLayoutManager gridLayoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+
+        final StaggeredGridLayoutManager gridLayoutManager = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
+                int[] lastVisibleItemPositions = gridLayoutManager.findLastVisibleItemPositions(null);
+                lastVisibleItem = getLastVisibleItem(lastVisibleItemPositions);
+
                 totalItemCount = gridLayoutManager.getItemCount();
-                lastVisibleItem = gridLayoutManager.findLastVisibleItemPosition();
+//                lastVisibleItem = gridLayoutManager.findLastVisibleItemPositions();
 
                 if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                     if (onLoadMoreListener != null) {
@@ -63,6 +68,18 @@ public class ListPopularModieAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         });
 
+    }
+
+    public int getLastVisibleItem(int[] lastVisibleItemPositions) {
+        int maxSize = 0;
+        for (int i = 0; i < lastVisibleItemPositions.length; i++) {
+            if (i == 0) {
+                maxSize = lastVisibleItemPositions[i];
+            } else if (lastVisibleItemPositions[i] > maxSize) {
+                maxSize = lastVisibleItemPositions[i];
+            }
+        }
+        return maxSize;
     }
 
     @Override

@@ -21,7 +21,8 @@ import retrofit2.http.Query;
 public interface ApiInterface {
 
     @GET(Constant.POPULAR_MOVIE)
-    Call<ListPopularMovie> getListPopularMovie(@Query("language") String lang,
+    Call<ListPopularMovie> getListPopularMovie(@Path("type_sort") String typeSort,
+                                               @Query("language") String lang,
                                                @Query("page") int page);
 
 }
